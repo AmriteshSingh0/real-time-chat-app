@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import {generateToken} from "../lib/utils.js";
+import cloudinary from "../lib/cloudinary.js";
 
 const authcontroller = {
   signup: async (req, res) => {
@@ -92,7 +93,47 @@ const authcontroller = {
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
+
+  updateProfile : async(req, res)=>{
+    try{
+      const {profilePic}=req.body;
+      const userId = req.user._id;
+
+      if(!profilePic){
+        return res.status(400).json({message:"Please provide a profile picture"})
+      }
+
+      const uploadResponse = await cloudinary.uploader.upload(profilePic)
+      
+
+      const updateUser= await User.findByIdAndUpdate(userId, {
+        profilePic:uploadResponse.secure_url},{new:true})
+
+      res.send(200).json(updateUser)
+
+
+
+    }
+    catch(error){
+      console.log("Error in updateProfile controller", error.message);
+      res.send(500).json({message:"Internal server error"});
+      }
+},
+
+
+checkAuth :async(req,res)=>{
+  try{
+   res.status(200).json(req.user)
+   
+  }
+  catch(error){
+    console.log("Error in checkAuth controller", error.message);
+    res.status(500).json({message:"Internal server error"});
+    
+  }
+}
 };
 
-export const { signup, login, logout } = authcontroller;
+export const { signup, login, logout ,updateProfile} = authcontroller;
 export default authcontroller;
+

@@ -3,7 +3,7 @@ import authRoutes from "./routes/auth.route.js";
 import dotenv from "dotenv";
 import authcontroller from "./controllers/auth.controller.js";
 import { connectDB } from "./lib/db.js";
-
+import messageRoutes from "./routes/message.route.js";
 
 const app = express();
 
@@ -14,6 +14,7 @@ app.use(express.json());
 const PORT = process.env.PORT;
 
 app.use("/api/auth",authRoutes)
+app.use("api/messages",messageRoutes)
 
 app.get("/", (req, res) => {
   res.send("Hello world from backend 🚀");

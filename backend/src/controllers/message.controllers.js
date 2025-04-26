@@ -1,12 +1,13 @@
 import user from '../models/user.model.js';
 import message from '../models/message.model.js';
 import User from '../models/user.model.js';
+import cloudinary from '../lib/cloudinary.js';
 
 export const getUserForSiderbar =async (req, res) => {
 try{
 
     const loggedinUser= req.user._id;
-    const filterduser= await User.findOne9({_id: {$ne: loggedinUser}}).select("-password");
+    const filterduser= await User.findOne({_id: {$ne: loggedinUser}}).select("-password");
 
     res.status(200).json(filterduser);
 
@@ -51,7 +52,7 @@ export const sendMessages = async (req, res) => {
           imageUrl = uploadResponse.secure_url;
         }
     
-        const newMessage = new Message({
+        const newMessage = new message({
           senderId,
           receiverId,
           text,

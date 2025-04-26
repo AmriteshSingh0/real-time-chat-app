@@ -5,7 +5,13 @@ import cloudinary from "../lib/cloudinary.js";
 
 const authcontroller = {
   signup: async (req, res) => {
-    const { fullname, email, password } = req.body;
+    const { fullName:fullname, email, password } = req.body;
+
+
+    console.log("🧪 fullname:", fullname);
+    console.log("🧪 email:", email);
+    console.log("🧪 password:", password);
+
 
     try {
         console.log("🟢 Signup request received:", req.body);
@@ -134,6 +140,6 @@ checkAuth :async(req,res)=>{
 }
 };
 
-export const { signup, login, logout ,updateProfile} = authcontroller;
+export const { signup, login, logout ,updateProfile, checkAuth} = authcontroller;
 export default authcontroller;
 

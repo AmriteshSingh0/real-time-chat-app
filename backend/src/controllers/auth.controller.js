@@ -80,7 +80,7 @@ const authcontroller = {
   
       res.status(200).json({
         _id: user._id,
-        fullName: user.fullName,
+        fullName: user.fullname,
         email: user.email,
         profilePic: user.profilePic,
       });
@@ -115,7 +115,7 @@ const authcontroller = {
       const updateUser= await User.findByIdAndUpdate(userId, {
         profilePic:uploadResponse.secure_url},{new:true})
 
-      res.send(200).json(updateUser)
+      res.status(200).json(updateUser)
 
 
 

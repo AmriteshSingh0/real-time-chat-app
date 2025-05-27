@@ -3,19 +3,35 @@ import { useRef, useEffect } from  "react";
 import { useChatStore } from '../store/useChatStore';
 import useAuthStore from '../store/useAuthStore';  
 import ChatHeader from './ChatHeader';
+import { formatMessageTime } from '../utils/formatMessageTime';
+import MessageSkeleton from './MessageSkeleton';
+import { subscribeToMessages, unsubscribeToMeassages } from '../lib/socket';
 
 
 
 const ChatContainer = () => {
-   const {messages , getMessages,selectedUser , isMessageLoading} =useChatStore();
+   const {messages , getMessages,selectedUser , isMessageLoading,subscribeToMessages, unsubscribeToMeassages} =useChatStore();
    const {authUser}=useAuthStore();
    const messageEndRef = useRef(null);
 
    
    useEffect(()=>{
-     getMessages(selectedUser._id)
+     getMessages(selectedUser._id);
+     subscribeToMessages();
 
-   },[selectedUser._id, getMessages])
+      return () => unsubscribeToMeassages();
+
+   },[selectedUser._id, getMessages,subscribeToMessages,unsubscribeToMeassages]);
+
+      useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+
+
+
 
    if(isMessageLoading) return (
     <div  className="flex-1 flex flex-col overflow-auto">

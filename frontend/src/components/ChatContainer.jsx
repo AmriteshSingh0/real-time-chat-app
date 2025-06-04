@@ -3,9 +3,8 @@ import { useRef, useEffect } from  "react";
 import { useChatStore } from '../store/useChatStore';
 import useAuthStore from '../store/useAuthStore';  
 import ChatHeader from './ChatHeader';
-import { formatMessageTime } from '../utils/formatMessageTime';
-import MessageSkeleton from './MessageSkeleton';
-import { subscribeToMessages, unsubscribeToMeassages } from '../lib/socket';
+import {formatMessageTime}  from '../lib/utils'
+import MessageSkeleton from './skeletons/MessageSkeleton';
 
 
 
@@ -87,4 +86,4 @@ const ChatContainer = () => {
   );
 };
 
-export default chatContainer
+export default ChatContainer

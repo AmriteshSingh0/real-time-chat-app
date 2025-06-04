@@ -1,4 +1,8 @@
 import mongo from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 
 export const connectDB = async () => {
     try{
@@ -8,4 +12,4 @@ export const connectDB = async () => {
     catch(error){
       console.log("MongoDB connection failed", error.message);
     }
-}
+} 
